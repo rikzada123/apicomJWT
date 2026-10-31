@@ -144,4 +144,10 @@ Os prints da execução no Postman estão na pasta [`evidencias/`](evidencias/):
 1. O cliente envia usuário e senha para `POST /api/auth/login`.
 2. A API confere as credenciais fixas. Se estiverem corretas, gera um JWT assinado com a chave configurada em `appsettings.json`, contendo o nome do usuário e a data de expiração.
 3. O cliente envia o token no cabeçalho `Authorization: Bearer <token>` nas requisições seguintes.
-4. Nas rotas com
+4. Nas rotas com `[Authorize]`, o ASP.NET Core valida a **assinatura**, o **emissor**, a **audiência** e a **validade** do token. Se for válido, executa a rota; caso contrário, retorna `401 Unauthorized`.
+
+## Observações de segurança
+
+- A chave em `appsettings.json` (`Jwt:Key`) é **apenas didática**. Em um projeto real, ela ficaria fora do repositório (variáveis de ambiente, User Secrets ou um cofre de segredos).
+- O conteúdo (payload) do JWT é apenas codificado em Base64, **não criptografado**. Por isso, nunca se deve colocar senhas ou informações secretas dentro do token.
+- Credenciais fixas no código servem somente para fins didáticos.
